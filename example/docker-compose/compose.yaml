@@ -31,3 +31,28 @@ services:
       - --stability.level=experimental # Enable all functionality
     ports:
       - "12345:12345"
+
+  # 5. OS 메트릭: Node Exporter (Alloy가 아님)
+  node-exporter:
+    image: prom/node-exporter:v1.8.1 # 버전은 명시되지 않아 최신 계열 사용
+    container_name: node-exporter
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/host/root"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - "9100:9100"
+    pid: host # ★ OS 메트릭 수집을 위해 호스트 PID 네임스페이스 필요
+    volumes:
+      # ★ OS 메트릭 수집을 위해 호스트 파일시스템 마운트 필요
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/:/host/root:ro"
+
+  # # 6. 애플리케이션 메트릭: Demo App
+  # demo-app:
+  #   container_name: demo-app
+  #   build: ./demo-app
+  #   ports:
+  #     - "8000:8000" # /metrics 포트

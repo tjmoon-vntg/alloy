@@ -10,7 +10,7 @@ services:
     ports:
       - "3000:3000"
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:3000/healthz" ]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/healthz"]
       interval: 1s
       start_interval: 0s
       start_period: 10s
@@ -60,5 +60,3 @@ services:
       - ../operations/alloy-mixin:/etc/alloy-mixin
     working_dir: /etc/alloy-mixin
     command: grr watch . ./grizzly.jsonnet
-
-

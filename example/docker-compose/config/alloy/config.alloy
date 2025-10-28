@@ -37,6 +37,16 @@ loki.relabel "alloy_logs"{
 	forward_to = [loki.write.loki.receiver]
 }
 
+loki.write "loki" {
+	endpoint {
+		url = string.format(
+			"http://%s/loki/api/v1/push",
+			coalesce(sys.env("LOKI_HOST"), "localhost:3100"),
+		)
+	}
+}
+
+
 // Collect metrics from the local running Alloy instance and forward to
 // Prometheus.
 prometheus.exporter.self "alloy" {}
@@ -54,16 +64,6 @@ prometheus.remote_write "mimir" {
 	}
 }
 
-loki.write "loki" {
-	endpoint {
-		url = string.format(
-			"http://%s/loki/api/v1/push",
-			coalesce(sys.env("LOKI_HOST"), "localhost:3100"),
-		)
-	}
-}
-
-
 
 // OS metric 
 // node-exporter (OS 메트릭) 수집
@@ -76,7 +76,7 @@ prometheus.scrape "node_exporter" {
   forward_to = [prometheus.remote_write.mimir.receiver]
 }
 
-/*
+
 // 3. demo-app (애플리케이션 메트릭) 수집
 prometheus.scrape "demo_app" {
   targets = [
@@ -86,4 +86,3 @@ prometheus.scrape "demo_app" {
   // 수집한 데이터를 'mimir' 엔드포인트로 전송
   forward_to = [prometheus.remote_write.mimir.receiver]
 }
-*/

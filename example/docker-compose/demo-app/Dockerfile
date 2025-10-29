@@ -4,5 +4,5 @@ WORKDIR /app
 RUN pip install flask prometheus-client
 COPY app.py .
 
-EXPOSE 8000
+EXPOSE 8080 8000 
 CMD ["python", "app.py"]

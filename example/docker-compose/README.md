@@ -1,3 +1,10 @@
+# 문서소개
+
+alloy example docker-compose 의 파일을 가져와서 수정하고 있음.
+https://github.com/grafana/alloy/tree/main/example/docker-compose 
+
+아래는 원래의 README 파일임.
+
 # Docker Compose example
 
 This directory contains a Docker Compose environment that can be used to test

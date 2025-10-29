@@ -23,5 +23,5 @@ def test():
 if __name__ == '__main__':
     # 8000번 포트에서 /metrics 엔드포인트 시작
     start_http_server(8000)
-    # 5000번 포트에서 Flask 앱 실행 (컨테이너 내부)
-    app.run(host='0.0.0.0', port=5000)
+    # 8080번 포트에서 Flask 앱 실행 (컨테이너 내부)
+    app.run(host='0.0.0.0', port=8080)
